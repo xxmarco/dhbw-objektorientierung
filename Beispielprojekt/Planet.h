@@ -2,11 +2,12 @@
 
 #include <string>
 #include <Gosu\Image.hpp>
+#include "Vektor2d.h"
 
 struct Planet {
-	double x, y;
+	Vektor2d pos;
 	double mass;
 	Gosu::Image img;
-	Planet(double x, double y, double mass, std::string img);
+	Planet(Vektor2d pos, double mass, std::string img);
 	void draw();
 };

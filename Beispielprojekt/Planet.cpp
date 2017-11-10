@@ -1,9 +1,8 @@
 #include "stdafx.h"
 #include "Planet.h"
 
-Planet::Planet(double x, double y, double mass, std::string img)
-	: x(x)
-	, y(y)
+Planet::Planet(Vektor2d pos, double mass, std::string img)
+	: pos(pos)
 	, mass(mass)
 	, img(img)
 {
@@ -11,5 +10,5 @@ Planet::Planet(double x, double y, double mass, std::string img)
 }
 
 void Planet::draw() {
-	img.draw_rot(x, y, 0.0, 0.0, 0.5, 0.5, 0.1, 0.1);
+	img.draw_rot(pos.get_x(), pos.get_y(), 0.0, 0.0, 0.5, 0.5, 0.1, 0.1);
 }
