@@ -26,6 +26,8 @@ public:
 	double length_squared() const;
 	double angle(const Vektor2d&) const;
 
+	Vektor2d log() const;
+
 	static Vektor2d from_angle(double angle, double speed = 1.0);
 };
 

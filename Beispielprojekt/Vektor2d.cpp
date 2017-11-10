@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Vektor2d.h"
 #include "Gosu/Gosu.hpp"
-
+#include <cmath>
 
 Vektor2d::Vektor2d()
 {
@@ -41,7 +41,7 @@ Vektor2d& Vektor2d::operator+=(const Vektor2d& other)
 
 Vektor2d Vektor2d::operator-(const Vektor2d& other) const
 {
-	return Vektor2d(other.x - x, other.y - y);
+	return Vektor2d(x - other.x, y - other.y);
 }
 
 Vektor2d& Vektor2d::operator-=(const Vektor2d& other)
@@ -83,6 +83,25 @@ double Vektor2d::length_squared() const
 double Vektor2d::angle(const Vektor2d& other) const
 {
 	return Gosu::angle(x, y, other.x, other.y);
+}
+
+double safelog(double d) {
+	if (d < 0) {
+		return -std::log(-d);
+	}
+	else if (d > 0) {
+		return std::log(d);
+	}
+	else {
+		return 0.0;
+	}
+}
+
+Vektor2d Vektor2d::log() const
+{
+	auto angle = this -> angle({ 0.0, 0.0 });
+	auto len = safelog(Gosu::distance(0.0, 0.0, x, y));
+	return Vektor2d::from_angle(angle, len);
 }
 
 Vektor2d Vektor2d::from_angle(double angle, double speed)

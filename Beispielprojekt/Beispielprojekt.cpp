@@ -23,7 +23,6 @@ public:
 		// Rakete startet in der Mitte des Bildschirmes
 		, pos(graphics().width() / 2.0, graphics().height() / 2.0)
 	{
-		std::cout << pos << std::endl;
 		set_caption("Gosu Tutorial Game mit Git");
 
 		// Erzeuge Planeten
@@ -39,7 +38,15 @@ public:
 			0.5, 0.5 // Position der "Mitte"
 		);
 
+		auto g2 = (gravity * 1000000000000.0).log();
+
+		Vektor2d rose(50.0, 50.0);
+		auto g = rose - g2;
+		auto s = rose + speed * 1000.0;
+
 		graphics().draw_line(pos.get_x(), pos.get_y(), Gosu::Color::GREEN, input().mouse_x(), input().mouse_y(), Gosu::Color::GREEN, -10.0);
+		graphics().draw_line(rose.get_x(), rose.get_y(), Gosu::Color::RED, g.get_x(), g.get_y(), Gosu::Color::RED, 10.0);
+		graphics().draw_line(rose.get_x(), rose.get_y(), Gosu::Color::BLUE, s.get_x(), s.get_y(), Gosu::Color::BLUE, 10.0);
 
 		for (auto planet : planets) {
 			planet.draw();
@@ -47,7 +54,7 @@ public:
 	}
 
 	double rot = 0.0;
-	Vektor2d pos, speed;
+	Vektor2d pos, speed, gravity;
 	double accel = 0.0;
 	std::vector<Planet> planets;
 
@@ -71,6 +78,9 @@ public:
 		// Geschwindigkeit wird in Flugrichtung geändert
 		speed += Vektor2d::from_angle(rot, accel);
 
+
+		gravity = Vektor2d();
+
 		// Planeten ziehen Raumschiff an
 		for (auto planet : planets) {
 
@@ -88,8 +98,10 @@ public:
 				speed = Vektor2d::from_angle(angle, pull);
 				break;
 			}
-			speed += Vektor2d(angle, pull);
+			gravity += Vektor2d::from_angle(angle, pull);
 		}
+
+		speed += gravity;
 
 		// Raumschiff in Richtung Mauszeiger drehen
 		double angle = pos.angle({ input().mouse_x(), input().mouse_y() });
