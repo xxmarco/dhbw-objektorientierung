@@ -31,6 +31,9 @@ public:
 		planets.push_back(Planet({ 400.0, 500.0 }, 0.1, "planet3.png"));
 	}
 
+	// wird bis zu 60x pro Sekunde aufgerufen.
+	// Wenn die Grafikkarte oder der Prozessor nicht mehr hinterherkommen,
+	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
 	void draw() override
 	{
 		bild.draw_rot(pos.get_x(), pos.get_y(), 10.0,
